@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/mailer"
-	"github.com/gophish/gophish/models"
+	log "github.com/onvio/gophish/logger"
+	"github.com/onvio/gophish/mailer"
+	"github.com/onvio/gophish/models"
 	"github.com/sirupsen/logrus"
 )
 

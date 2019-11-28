@@ -8,9 +8,9 @@ import (
 	"strings"
 	"regexp"
 	"github.com/gophish/gomail"
-	"github.com/gophish/gophish/config"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/mailer"
+	"github.com/onvio/gophish/config"
+	log "github.com/onvio/gophish/logger"
+	"github.com/onvio/gophish/mailer"
 )
 
 // PreviewPrefix is the standard prefix added to the rid parameter when sending

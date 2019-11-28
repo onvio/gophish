@@ -32,11 +32,11 @@ import (
 
 	"gopkg.in/alecthomas/kingpin.v2"
 
-	"github.com/gophish/gophish/config"
-	"github.com/gophish/gophish/controllers"
-	log "github.com/gophish/gophish/logger"
-	"github.com/gophish/gophish/middleware"
-	"github.com/gophish/gophish/models"
+	"github.com/onvio/gophish/config"
+	"github.com/onvio/gophish/controllers"
+	log "github.com/onvio/gophish/logger"
+	"github.com/onvio/gophish/middleware"
+	"github.com/onvio/gophish/models"
 )
 
 var (

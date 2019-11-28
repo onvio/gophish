@@ -3,7 +3,7 @@ package models
 import (
 	"errors"
 
-	log "github.com/gophish/gophish/logger"
+	log "github.com/onvio/gophish/logger"
 )
 
 // ErrModifyingOnlyAdmin occurs when there is an attempt to modify the only

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	ctx "github.com/gophish/gophish/context"
-	"github.com/gophish/gophish/models"
+	ctx "github.com/onvio/gophish/context"
+	"github.com/onvio/gophish/models"
 	"golang.org/x/crypto/bcrypt"
 )
 

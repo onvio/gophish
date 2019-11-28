@@ -3,9 +3,9 @@ package api
 import (
 	"net/http"
 
-	mid "github.com/gophish/gophish/middleware"
-	"github.com/gophish/gophish/models"
-	"github.com/gophish/gophish/worker"
+	mid "github.com/onvio/gophish/middleware"
+	"github.com/onvio/gophish/models"
+	"github.com/onvio/gophish/worker"
 	"github.com/gorilla/mux"
 )
 

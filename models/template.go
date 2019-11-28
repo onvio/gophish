@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	log "github.com/gophish/gophish/logger"
+	log "github.com/onvio/gophish/logger"
 	"github.com/jinzhu/gorm"
 )
 

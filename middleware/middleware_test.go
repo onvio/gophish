@@ -6,9 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gophish/gophish/config"
-	ctx "github.com/gophish/gophish/context"
-	"github.com/gophish/gophish/models"
+	"github.com/onvio/gophish/config"
+	ctx "github.com/onvio/gophish/context"
+	"github.com/onvio/gophish/models"
 	"github.com/stretchr/testify/suite"
 )
 

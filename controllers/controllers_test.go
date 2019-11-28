@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gophish/gophish/config"
-	"github.com/gophish/gophish/models"
+	"github.com/onvio/gophish/config"
+	"github.com/onvio/gophish/models"
 	"github.com/stretchr/testify/suite"
 )
 
