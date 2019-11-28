@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Example run: 
-# cd /opt && git clone https://github.com/onvio/gophish.git && bash gophish/run.sh phisher.com,www.phisher.com
+# cd /opt && git clone https://github.com/onvio/gophish.git && cd gophish && chmod +x run.sh && source ./run.sh phisher.com,www.phisher.com
 
-HOST=$1
+HOSTS=$1
 
 systemctl stop gophish.service
 
@@ -20,6 +20,7 @@ rm go1.13.3.linux-amd64.tar.gz
 mv go /usr/local
 
 # Set GoPath to one directory up from where project is cloned
+applicationDir=$(pwd)
 parentDir="$(dirname "$(pwd)")"
 
 export GOROOT=/usr/local/go
@@ -36,21 +37,26 @@ wget https://dl.eff.org/certbot-auto
 mv certbot-auto /usr/local/bin/certbot-auto
 chown root /usr/local/bin/certbot-auto
 chmod 0755 /usr/local/bin/certbot-auto
-/usr/local/bin/certbot-auto certonly -d $HOST -n --standalone --agree-tos --email info@onvio.nl
+/usr/local/bin/certbot-auto certonly -d $HOSTS -n --standalone --agree-tos --email info@onvio.nl
+
+unset -v latest
+for file in /etc/letsencrypt/live/*; do
+  [[ $file -nt $letsencryptPath ]] && letsencryptPath=$file
+done
 
 # Create config
 echo "{
 	\"admin_server\": {
 		\"listen_url\": \"0.0.0.0:3333\",
 		\"use_tls\": true,
-		\"cert_path\": \"/etc/letsencrypt/live/$HOST/fullchain.pem\",
-		\"key_path\": \"/etc/letsencrypt/live/$HOST/privkey.pem\"
+		\"cert_path\": \"$letsencryptPath/fullchain.pem\",
+		\"key_path\": \"$letsencryptPath/privkey.pem\"
 	},
 	\"phish_server\": {
 		\"listen_url\": \"0.0.0.0:443\",
 		\"use_tls\": true,
-		\"cert_path\": \"/etc/letsencrypt/live/$HOST/fullchain.pem\",
-		\"key_path\": \"/etc/letsencrypt/live/$HOST/privkey.pem\"
+		\"cert_path\": \"$letsencryptPath/fullchain.pem\",
+		\"key_path\": \"$letsencryptPath/privkey.pem\"
 	},
 	\"db_name\": \"sqlite3\",
 	\"db_path\": \"gophish.db\",
@@ -59,7 +65,7 @@ echo "{
 	\"logging\": {
 		\"filename\": \"\"
 	}
-}" > $GOPATH/gophish/config.json
+}" > $applicationDir/config.json
 
 # Start service
 echo "[Unit]
