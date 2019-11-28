@@ -26,13 +26,16 @@ export GOPATH=$HOME
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install GoPhish
-installPath=/opt/gophish
 go get github.com/onvio/gophish
 cd $GOPATH/src/github.com/onvio/gophish
 go get -v && go build -v
+
+installPath=/opt/gophish
+rm -r ${installPath}
 cp -r $GOPATH/src/github.com/onvio/gophish $installPath
 
 # Generate SSL certificate
+rm -r /etc/letsencrypt/live/*
 wget https://dl.eff.org/certbot-auto
 mv certbot-auto /usr/local/bin/certbot-auto
 chown root /usr/local/bin/certbot-auto
