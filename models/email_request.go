@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/mail"
 	"strings"
-
+	"regexp"
 	"github.com/gophish/gomail"
 	"github.com/gophish/gophish/config"
 	log "github.com/gophish/gophish/logger"
