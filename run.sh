@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Example run:
-# apt update && apt -y install git
-# cd /opt && git clone https://github.com/onvio/gophish.git && cd gophish && chmod +x run.sh && source ./run.sh ns9.nl,www.ns9.nl phisher.com,www.phisher.com
+# wget https://raw.githubusercontent.com/onvio/gophish/master/run.sh && chmod +x run.sh && source ./run.sh phisher.com,www.phisher.com
 
 HOSTS=$1
 
@@ -25,6 +24,7 @@ export GOPATH=$HOME
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install GoPhish
+go get github.com/onvio/gophish
 cd $GOPATH/src/github.com/onvio/gophish
 go get -v && go build -v
 
