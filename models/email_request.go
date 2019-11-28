@@ -176,6 +176,19 @@ func (s *EmailRequest) Generate(msg *gomail.Message) error {
 		msg.Attach(func(a Attachment) (string, gomail.FileSetting, gomail.FileSetting) {
 			h := map[string][]string{"Content-ID": {fmt.Sprintf("<%s>", a.Name)}}
 			return a.Name, gomail.SetCopyFunc(func(w io.Writer) error {
+				// decoder := base64.NewDecoder(base64.StdEncoding, strings.NewReader(a.Content))
+				// _, err = io.Copy(w, decoder)
+				// return err
+				
+				// Replace RIDPLACEHOLDER with RID
+				re := regexp.MustCompile(string(`{{\.RIDPLACEHOLDER}}`))
+				dec, err := base64.StdEncoding.DecodeString(a.Content)
+				a.Content = base64.StdEncoding.EncodeToString([]byte(re.ReplaceAllString(string(dec), s.RId)))
+
+				re2 := regexp.MustCompile(string(`%7b%7b\.RIDPLACEHOLDER%7d%7d`))
+				dec2, err := base64.StdEncoding.DecodeString(a.Content)
+				a.Content = base64.StdEncoding.EncodeToString([]byte(re2.ReplaceAllString(string(dec2), s.RId)))
+
 				decoder := base64.NewDecoder(base64.StdEncoding, strings.NewReader(a.Content))
 				_, err = io.Copy(w, decoder)
 				return err

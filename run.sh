@@ -7,12 +7,14 @@ HOSTS=$1
 
 systemctl stop gophish.service
 
-# Install Go
+# Install Prerequisites
 apt-get update
+apt-get -y install git
 apt-get -y upgrade
 apt-get -y install build-essential
 apt-get -y install sqlite3
 
+# Install Go
 rm -r /usr/local/go
 wget https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz
 tar -xvf go1.13.3.linux-amd64.tar.gz
@@ -24,12 +26,10 @@ export GOPATH=$HOME
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install GoPhish
+installPath=/opt/gophish
 go get github.com/onvio/gophish
 cd $GOPATH/src/github.com/onvio/gophish
 go get -v && go build -v
-
-installPath=/opt/gophish
-
 cp -r $GOPATH/src/github.com/onvio/gophish $installPath
 
 # Generate SSL certificate
@@ -67,7 +67,7 @@ echo "{
 	}
 }" > $installPath/config.json
 
-# Start service
+# Install and start as a service
 echo "[Unit]
 Description=Gophishtest
 
