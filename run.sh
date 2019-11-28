@@ -35,7 +35,6 @@ rm -r ${installPath}
 cp -r $GOPATH/src/github.com/onvio/gophish $installPath
 
 # Generate SSL certificate
-rm -r /etc/letsencrypt/live/*
 wget https://dl.eff.org/certbot-auto
 mv certbot-auto /usr/local/bin/certbot-auto
 chown root /usr/local/bin/certbot-auto
