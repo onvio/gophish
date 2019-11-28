@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Example run: 
-# cd /opt && git clone https://github.com/onvio/gophish.git && cd gophish && chmod +x run.sh && source ./run.sh phisher.com,www.phisher.com
+# Example run:
+# apt update && apt -y install git
+# cd /opt && git clone https://github.com/onvio/gophish.git && cd gophish && chmod +x run.sh && source ./run.sh ns9.nl,www.ns9.nl phisher.com,www.phisher.com
 
 HOSTS=$1
 
@@ -19,18 +20,17 @@ tar -xvf go1.13.3.linux-amd64.tar.gz
 rm go1.13.3.linux-amd64.tar.gz
 mv go /usr/local
 
-# Set GoPath to one directory up from where project is cloned
-applicationDir=$(pwd)
-parentDir="$(dirname "$(pwd)")"
-
 export GOROOT=/usr/local/go
-export GOPATH=$parentDir
+export GOPATH=$HOME
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install GoPhish
-go get -d -v ./...
-go build -v ./...
-go install .
+cd $GOPATH/src/github.com/onvio/gophish
+go get -v && go build -v
+
+installPath=/opt/gophish
+
+cp -r $GOPATH/src/github.com/onvio/gophish $installPath
 
 # Generate SSL certificate
 wget https://dl.eff.org/certbot-auto
@@ -65,20 +65,19 @@ echo "{
 	\"logging\": {
 		\"filename\": \"\"
 	}
-}" > $applicationDir/config.json
+}" > $installPath/config.json
 
 # Start service
 echo "[Unit]
 Description=Gophishtest
 
 [Service]
-WorkingDirectory=/opt/gophish
-ExecStart=/opt/gophish/gophish
+WorkingDirectory=$installPath
+ExecStart=$installPath/gophish
 Type=simple
 
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/gophish.service
 
 systemctl daemon-reload
-service gophish start
 systemctl start gophish.service
