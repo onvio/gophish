@@ -30,9 +30,12 @@ go get -u github.com/onvio/gophish
 cd $GOPATH/src/github.com/onvio/gophish
 go get -v && go build -v
 
+# Update or create GoPhish application
 installPath=/opt/gophish
+mv ${installPath}/gophish.db ${installPath}/../gophish.db
 rm -r ${installPath}
 cp -r $GOPATH/src/github.com/onvio/gophish $installPath
+mv ${installPath}/../gophish.db ${installPath}/gophish.db
 
 # Generate SSL certificate
 wget https://dl.eff.org/certbot-auto
@@ -43,7 +46,8 @@ chmod 0755 /usr/local/bin/certbot-auto
 
 unset -v latest
 for file in /etc/letsencrypt/live/*; do
-  [[ $file -nt $letsencryptPath && $file -nt "README" ]] && letsencryptPath=$file
+  [[ $file =~ README ]] && continue
+  [[ $file -nt $letsencryptPath ]] && letsencryptPath=$file
 done
 
 # Create config

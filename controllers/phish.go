@@ -214,8 +214,8 @@ func (ps *PhishingServer) PhishHandler(w http.ResponseWriter, r *http.Request) {
 		if err != ErrInvalidRequest && err != ErrCampaignComplete {
 			log.Error(err)
 		}
-		//http.NotFound(w, r)
-		http.Redirect(w, r, ps.config.ListenURL, http.StatusFound)
+		http.NotFound(w, r)
+		//http.Redirect(w, r, ps.config.ListenURL, http.StatusFound)
 		return
 	}
 	w.Header().Set("X-Server", config.ServerName) // Useful for checking if this is a GoPhish server (e.g. for campaign reporting plugins)
