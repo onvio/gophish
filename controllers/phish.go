@@ -88,7 +88,7 @@ func RedirectToTLS(w http.ResponseWriter, req *http.Request) {
 		target += "?" + req.URL.RawQuery
 	}
 	log.Infof("Redirect HTTP request to: %s", target)
-	http.Redirect(w, req, target, http.StatusPermanentRedirect)
+	http.Redirect(w, req, target, http.StatusMovedPermanently)
 }
 
 // Start launches the phishing server, listening on the configured address.

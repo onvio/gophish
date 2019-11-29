@@ -26,7 +26,7 @@ export GOPATH=$HOME
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install GoPhish
-go get github.com/onvio/gophish
+go get -u github.com/onvio/gophish
 cd $GOPATH/src/github.com/onvio/gophish
 go get -v && go build -v
 
