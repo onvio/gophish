@@ -177,10 +177,9 @@ func (s *EmailRequest) Generate(msg *gomail.Message) error {
 			h := map[string][]string{"Content-ID": {fmt.Sprintf("<%s>", a.Name)}}
 			return a.Name, gomail.SetCopyFunc(func(w io.Writer) error {
 				// Replace RIDPLACEHOLDER with RID
-				phishURL := s.URL + "?rid=" + s.RId
 				decodedContent, err := base64.StdEncoding.DecodeString(a.Content)
-				newContent := strings.Replace(string(decodedContent), "{{.RIDPLACEHOLDER}}", phishURL, -1)
-				newContent = strings.Replace(newContent, "%7b%7b.RIDPLACEHOLDER%7d%7d", phishURL, -1)
+				newContent := strings.Replace(string(decodedContent), "{{.RIDPLACEHOLDER}}", s.URL, -1)
+				newContent = strings.Replace(newContent, "%7b%7b.RIDPLACEHOLDER%7d%7d", s.URL, -1)
 				a.Content = base64.StdEncoding.EncodeToString([]byte(newContent))
 
 				decoder := base64.NewDecoder(base64.StdEncoding, strings.NewReader(a.Content))
