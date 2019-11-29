@@ -11,15 +11,15 @@ import (
 	"time"
 
 	"github.com/NYTimes/gziphandler"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	"github.com/jordan-wright/unindexed"
 	"github.com/onvio/gophish/config"
 	ctx "github.com/onvio/gophish/context"
 	"github.com/onvio/gophish/controllers/api"
 	log "github.com/onvio/gophish/logger"
 	"github.com/onvio/gophish/models"
 	"github.com/onvio/gophish/util"
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
-	"github.com/jordan-wright/unindexed"
 )
 
 // ErrInvalidRequest is thrown when a request with an invalid structure is
@@ -81,9 +81,22 @@ func WithContactAddress(addr string) PhishingServerOption {
 	}
 }
 
+// RedirectToTLS redirects HTTP requests to HTTPS
+func RedirectToTLS(w http.ResponseWriter, req *http.Request) {
+	target := "https://" + req.Host + req.URL.Path
+	if len(req.URL.RawQuery) > 0 {
+		target += "?" + req.URL.RawQuery
+	}
+	log.Infof("Redirect HTTP request to: %s", target)
+	http.Redirect(w, req, target, http.StatusPermanentRedirect)
+}
+
 // Start launches the phishing server, listening on the configured address.
 func (ps *PhishingServer) Start() {
 	if ps.config.UseTLS {
+		// Start HTTP to HTTPS redirect listener
+		go http.ListenAndServe(":80", http.HandlerFunc(RedirectToTLS))
+
 		err := util.CheckAndCreateSSL(ps.config.CertPath, ps.config.KeyPath)
 		if err != nil {
 			log.Fatal(err)
