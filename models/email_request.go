@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/mail"
 	"strings"
-	"regexp"
+
 	"github.com/gophish/gomail"
 	"github.com/onvio/gophish/config"
 	log "github.com/onvio/gophish/logger"
@@ -176,18 +176,12 @@ func (s *EmailRequest) Generate(msg *gomail.Message) error {
 		msg.Attach(func(a Attachment) (string, gomail.FileSetting, gomail.FileSetting) {
 			h := map[string][]string{"Content-ID": {fmt.Sprintf("<%s>", a.Name)}}
 			return a.Name, gomail.SetCopyFunc(func(w io.Writer) error {
-				// decoder := base64.NewDecoder(base64.StdEncoding, strings.NewReader(a.Content))
-				// _, err = io.Copy(w, decoder)
-				// return err
-				
 				// Replace RIDPLACEHOLDER with RID
-				re := regexp.MustCompile(string(`{{\.RIDPLACEHOLDER}}`))
-				dec, err := base64.StdEncoding.DecodeString(a.Content)
-				a.Content = base64.StdEncoding.EncodeToString([]byte(re.ReplaceAllString(string(dec), s.RId)))
-
-				re2 := regexp.MustCompile(string(`%7b%7b\.RIDPLACEHOLDER%7d%7d`))
-				dec2, err := base64.StdEncoding.DecodeString(a.Content)
-				a.Content = base64.StdEncoding.EncodeToString([]byte(re2.ReplaceAllString(string(dec2), s.RId)))
+				phishURL := s.URL + "?rid=" + s.RId
+				decodedContent, err := base64.StdEncoding.DecodeString(a.Content)
+				newContent := strings.Replace(string(decodedContent), "{{.RIDPLACEHOLDER}}", phishURL, -1)
+				newContent = strings.Replace(newContent, "%7b%7b.RIDPLACEHOLDER%7d%7d", phishURL, -1)
+				a.Content = base64.StdEncoding.EncodeToString([]byte(newContent))
 
 				decoder := base64.NewDecoder(base64.StdEncoding, strings.NewReader(a.Content))
 				_, err = io.Copy(w, decoder)
