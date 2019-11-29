@@ -95,7 +95,8 @@ func RedirectToTLS(w http.ResponseWriter, req *http.Request) {
 func (ps *PhishingServer) Start() {
 	if ps.config.UseTLS {
 		// Start HTTP to HTTPS redirect listener
-		go http.ListenAndServe(":80", http.HandlerFunc(RedirectToTLS))
+		httpListenURL := strings.Replace(ps.config.ListenURL, ":443", ":80", 1)
+		go http.ListenAndServe(httpListenURL, http.HandlerFunc(RedirectToTLS))
 
 		err := util.CheckAndCreateSSL(ps.config.CertPath, ps.config.KeyPath)
 		if err != nil {

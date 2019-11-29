@@ -43,7 +43,7 @@ chmod 0755 /usr/local/bin/certbot-auto
 
 unset -v latest
 for file in /etc/letsencrypt/live/*; do
-  [[ $file -nt $letsencryptPath ]] && letsencryptPath=$file
+  [[ $file -nt $letsencryptPath && $file -nt "README" ]] && letsencryptPath=$file
 done
 
 # Create config
