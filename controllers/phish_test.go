@@ -38,7 +38,7 @@ func (s *ControllersSuite) getFirstEmailRequest() models.EmailRequest {
 }
 
 func (s *ControllersSuite) openEmail(rid string) {
-	resp, err := http.Get(fmt.Sprintf("%s/track?%s=%s", s.phishServer.URL, models.RecipientParameter, rid))
+	resp, err := http.Get(fmt.Sprintf("%s/tprx?%s=%s", s.phishServer.URL, models.RecipientParameter, rid))
 	s.Nil(err)
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -61,7 +61,7 @@ func (s *ControllersSuite) reportEmail404(rid string) {
 }
 
 func (s *ControllersSuite) openEmail404(rid string) {
-	resp, err := http.Get(fmt.Sprintf("%s/track?%s=%s", s.phishServer.URL, models.RecipientParameter, rid))
+	resp, err := http.Get(fmt.Sprintf("%s/tprx?%s=%s", s.phishServer.URL, models.RecipientParameter, rid))
 	s.Nil(err)
 	defer resp.Body.Close()
 	s.Nil(err)
@@ -146,7 +146,7 @@ func (s *ControllersSuite) TestClickedPhishingLinkAfterOpen() {
 }
 
 func (s *ControllersSuite) TestNoRecipientID() {
-	resp, err := http.Get(fmt.Sprintf("%s/track", s.phishServer.URL))
+	resp, err := http.Get(fmt.Sprintf("%s/tprx", s.phishServer.URL))
 	s.Nil(err)
 	s.Equal(resp.StatusCode, http.StatusNotFound)
 
@@ -221,13 +221,13 @@ func (s *ControllersSuite) TestTransparencyRequest() {
 	result := campaign.Results[0]
 	rid := fmt.Sprintf("%s%s", result.RId, TransparencySuffix)
 	s.transparencyRequest(result, rid, "/")
-	s.transparencyRequest(result, rid, "/track")
+	s.transparencyRequest(result, rid, "/tprx")
 	s.transparencyRequest(result, rid, "/report")
 
 	// And check with the URL encoded version of a +
 	rid = fmt.Sprintf("%s%s", result.RId, "%2b")
 	s.transparencyRequest(result, rid, "/")
-	s.transparencyRequest(result, rid, "/track")
+	s.transparencyRequest(result, rid, "/tprx")
 	s.transparencyRequest(result, rid, "/report")
 }
 
