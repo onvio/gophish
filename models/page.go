@@ -88,6 +88,17 @@ func (p *Page) Validate() error {
 	return p.parseHTML()
 }
 
+// GetDefaultPage returns the first page in the database.
+func GetDefaultPage() (Page, error) {
+	p := Page{}
+	err := db.First(&p).Error
+	if err != nil {
+		log.Error(err)
+		return p, err
+	}
+	return p, err
+}
+
 // GetPages returns the pages owned by the given user.
 func GetPages(uid int64) ([]Page, error) {
 	ps := []Page{}

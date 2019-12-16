@@ -214,8 +214,16 @@ func (ps *PhishingServer) PhishHandler(w http.ResponseWriter, r *http.Request) {
 		if err != ErrInvalidRequest && err != ErrCampaignComplete {
 			log.Error(err)
 		}
-		http.NotFound(w, r)
-		//http.Redirect(w, r, ps.config.ListenURL, http.StatusFound)
+
+		// Render the default landing page if no rID is provided
+		p, err := models.GetDefaultPage()
+		if err != nil {
+			log.Error(err)
+			http.NotFound(w, r)
+			return
+		}
+		w.Write([]byte(p.HTML))
+
 		return
 	}
 	w.Header().Set("X-Server", config.ServerName) // Useful for checking if this is a GoPhish server (e.g. for campaign reporting plugins)
@@ -251,8 +259,7 @@ func (ps *PhishingServer) PhishHandler(w http.ResponseWriter, r *http.Request) {
 	p, err := models.GetPage(c.PageId, c.UserId)
 	if err != nil {
 		log.Error(err)
-		//http.NotFound(w, r)
-		http.Redirect(w, r, ps.config.ListenURL, http.StatusFound)
+		http.NotFound(w, r)
 		return
 	}
 	switch {
@@ -270,8 +277,7 @@ func (ps *PhishingServer) PhishHandler(w http.ResponseWriter, r *http.Request) {
 	ptx, err = models.NewPhishingTemplateContext(&c, rs.BaseRecipient, rs.RId)
 	if err != nil {
 		log.Error(err)
-		//http.NotFound(w, r)
-		http.Redirect(w, r, ps.config.ListenURL, http.StatusFound)
+		http.NotFound(w, r)
 	}
 	renderPhishResponse(w, r, ptx, p)
 }
