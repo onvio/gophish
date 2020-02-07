@@ -16,6 +16,14 @@ This fork has a focus on running real-life phishing campaigns for a single custo
 
 More info: https://www.onvio.nl/nieuws/gophish-phishing
 
+### Setup
+
+Spin-up a fresh VPS and login as root and run:
+
+```wget -N https://raw.githubusercontent.com/onvio/gophish/master/run.sh && chmod +x run.sh && source ./run.sh subdomain.phishingdomain.com,www.phishingdomain.com```
+
+Your are now ready to go at https://www.phishingdomain.com:3333!
+
 ### Documentation
 
 Documentation can be found on our [site](http://getgophish.com/documentation). Find something missing? Let us know by filing an issue!
