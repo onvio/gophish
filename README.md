@@ -1,28 +1,18 @@
-![gophish logo](https://raw.github.com/onvio/gophish/master/static/images/gophish_purple.png)
-
-Gophish
+Gophish fork
 =======
 
-[![Build Status](https://travis-ci.org/gophish/gophish.svg?branch=master)](https://travis-ci.org/gophish/gophish) [![GoDoc](https://godoc.org/github.com/gophish/gophish?status.svg)](https://godoc.org/github.com/gophish/gophish)
+This is a fork of Gophish: Open-Source Phishing Toolkit [Gophish](https://getgophish.com)
 
-Gophish: Open-Source Phishing Toolkit
+### New features
 
-[Gophish](https://getgophish.com) is an open-source phishing toolkit designed for businesses and penetration testers. It provides the ability to quickly and easily setup and execute phishing engagements and security awareness training.
+This fork has focus on running real-life phishing campaigns for a single customer. The following features are added:
 
-### Install
-
-Installation of Gophish is dead-simple - just download and extract the zip containing the [release for your system](https://github.com/onvio/gophish/releases/), and run the binary. Gophish has binary releases for Windows, Mac, and Linux platforms.
-
-### Building From Source
-**If you are building from source, please note that Gophish requires Go v1.9 or above!**
-
-To build Gophish from source, simply run ```go get github.com/gophish/gophish``` and ```cd``` into the project source directory. Then, run ```go build```. After this, you should have a binary called ```gophish``` in the current directory.
-
-### Docker
-You can also use Gophish via an unofficial Docker container [here](https://hub.docker.com/r/matteoggl/gophish/).
-
-### Setup
-After running the Gophish binary, open an Internet browser to https://localhost:3333 and login with the default username (admin) and password (gophish).
+- Script to automatically setup a fully configured Gophish instance on a fresh VPS. This allows you to have a single VPS for each of your customers. This helps preventing data leaks and you can completely destroy the VPS after you completed your campaigns.
+- Support for running your landingpage on both HTTP & HTTPS (HTTP will 301 to HTTPS).
+- Support for displaying a default landingpage if no RID is provided (instead of showing a 404).
+- Automatically install Let's encrypt Certificates for your domains.
+- Support for tracking the opening of malicious Word attachments and enabling Macro's inside these documents. 
+- More to be developed...
 
 ### Documentation
 
