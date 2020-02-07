@@ -43,9 +43,9 @@ for i in $(echo $HOSTS | sed "s/,/ /g")
 do
   fping -c1 -t300 $i &>/dev/null
   if [ "$?" != 0 ]
-    then
-      echo "Host $i found, wait for your DNS to update"
-      exit 0
+  then
+    echo "Host $i did not resolve, wait for your DNS to update"
+    exit 0
   fi
 done
 
