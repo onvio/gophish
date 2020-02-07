@@ -5,7 +5,7 @@ This is a fork of Gophish: Open-Source Phishing Toolkit [Gophish](https://getgop
 
 ### New features
 
-This fork has focus on running real-life phishing campaigns for a single customer. The following features are added:
+This fork has a focus on running real-life phishing campaigns for a single customer. The following features are added:
 
 - Script to automatically setup a fully configured Gophish instance on a fresh VPS. This allows you to have a single VPS for each of your customers. This helps preventing data leaks and you can completely destroy the VPS after you completed your campaigns.
 - Support for running your landingpage on both HTTP & HTTPS (HTTP will 301 to HTTPS).
