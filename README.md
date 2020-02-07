@@ -14,6 +14,8 @@ This fork has a focus on running real-life phishing campaigns for a single custo
 - Support for tracking the opening of malicious Word attachments and enabling Macro's inside these documents. 
 - More to be developed...
 
+More info: https://www.onvio.nl/nieuws/gophish-phishing
+
 ### Documentation
 
 Documentation can be found on our [site](http://getgophish.com/documentation). Find something missing? Let us know by filing an issue!
