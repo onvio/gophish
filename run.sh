@@ -13,6 +13,7 @@ apt-get -y install git
 apt-get -y upgrade
 apt-get -y install build-essential
 apt-get -y install sqlite3
+apt-get -y install fping
 
 # Install Go
 rm -r /usr/local/go
@@ -36,6 +37,17 @@ mv ${installPath}/gophish.db ${installPath}/../gophish.db
 rm -r ${installPath}
 cp -r $GOPATH/src/github.com/onvio/gophish $installPath
 mv ${installPath}/../gophish.db ${installPath}/gophish.db
+
+# Check if the HOSTS variables resolves, to prevent Let's Encrypt blocks for too many invalid attempts
+for i in $(echo $HOSTS | sed "s/,/ /g")
+do
+  fping -c1 -t300 $i &>/dev/null
+  if [ "$?" != 0 ]
+    then
+      echo "Host $i found, wait for your DNS to update"
+      exit 0
+  fi
+done
 
 # Generate SSL certificate
 wget https://dl.eff.org/certbot-auto
