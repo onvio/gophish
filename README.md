@@ -18,7 +18,7 @@ More info: https://www.onvio.nl/nieuws/gophish-phishing
 
 ### Setup
 
-Spin-up a fresh VPS and login as root and run:
+Spin-up a fresh VPS, logon as root and run:
 
 ```wget -N https://raw.githubusercontent.com/onvio/gophish/master/run.sh && chmod +x run.sh && source ./run.sh subdomain.phishingdomain.com,www.phishingdomain.com```
 
