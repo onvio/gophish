@@ -12,7 +12,7 @@ RUN gulp
 # Build Golang binary
 FROM golang:1.11 AS build-golang
 
-WORKDIR /go/src/github.com/gophish/gophish
+WORKDIR /go/src/github.com/onvio/gophish
 COPY . .
 RUN go get -v && go build -v
 
