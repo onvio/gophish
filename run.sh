@@ -14,6 +14,7 @@ apt-get -y upgrade
 apt-get -y install build-essential
 apt-get -y install sqlite3
 apt-get -y install fping
+apt-get -y install host
 
 # Install Go
 rm -r /usr/local/go
