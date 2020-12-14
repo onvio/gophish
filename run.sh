@@ -49,11 +49,8 @@ do
 done
 
 # Generate SSL certificate
-wget https://dl.eff.org/certbot-auto
-mv certbot-auto /usr/local/bin/certbot-auto
-chown root /usr/local/bin/certbot-auto
-chmod 0755 /usr/local/bin/certbot-auto
-/usr/local/bin/certbot-auto certonly --expand -d $HOSTS -n --standalone --agree-tos --email info@onvio.nl
+apt install certbot python3-certbot-nginx -y
+certbot certonly --expand -d $HOSTS -n --standalone --agree-tos --email info@onvio.nl
 
 unset -v latest
 for file in /etc/letsencrypt/live/*; do
